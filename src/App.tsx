@@ -1,39 +1,39 @@
 import React from 'react';
 
 interface AppPressedKeyState {
-  lastPressedKey: string | null;
+  pressedKey: string | null;
 }
 
 export class App extends React.Component<{}, AppPressedKeyState> {
   state: AppPressedKeyState = {
-    lastPressedKey: null,
+    pressedKey: null,
   };
 
   // usar um handler de classe com arrow function para preservar `this`
-  onKeyUp = (event: KeyboardEvent) => {
+  handleKeyUp = (event: KeyboardEvent) => {
     // event.key é seguro aqui — este é o KeyboardEvent do DOM
-    this.setState({ lastPressedKey: event.key });
+    this.setState({ pressedKey: event.key });
   };
 
   componentDidMount() {
     // registrar listener global para 'keyup'
-    document.addEventListener('keyup', this.onKeyUp);
+    document.addEventListener('keyup', this.handleKeyUp);
   }
 
   componentWillUnmount() {
     // remover listener global
-    document.removeEventListener('keyup', this.onKeyUp);
+    document.removeEventListener('keyup', this.handleKeyUp);
   }
 
   render() {
-    const { lastPressedKey } = this.state;
+    const { pressedKey } = this.state;
 
     return (
       <div className="App">
         <p className="App__message">
-          {lastPressedKey === null
+          {pressedKey === null
             ? 'Nothing was pressed yet'
-            : `The last pressed key is [${lastPressedKey}]`}
+            : `The last pressed key is [${pressedKey}]`}
         </p>
       </div>
     );
